@@ -73093,6 +73093,9 @@ classes:
       \ which will have 3 MountingPoint instances, one for each phase all with coordinates\
       \ relative to a common origin on the tower. (It may also have a 3rd Connection\
       \ with a single MountingPoint for the Neutral line).\r\n"
+    slot_usage:
+      height:
+        maximum_value: 200    
     attributes:
       constructionKind:
         slot_uri: cim:Tower.constructionKind
