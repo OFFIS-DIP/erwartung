@@ -1,3 +1,7 @@
+---
+title: Data Unit Tests
+---
+
 # Categories of data tests
 ## Required attributes
 Attributes can be defined as `required`, meaning that tests fail for entities that do not have these attributes:
@@ -27,7 +31,7 @@ Structure:
     height:
       range: decimal
 ```
-LinkML provides more information on [ranges](https://linkml.io/linkml/schemas/slots.html#ranges).
+LinkML provides more information on [ranges](https://linkml.io/linkml/schemas/slots.html#ranges){target="_blank" rel="noopener noreferrer"}.
 
 ## Number values - Upper and lower boundaries
 For attributes with a range `decimal` or `integer`, upper and lower boundaries can be set using `maximum_value` and `minimum_value`:
@@ -47,7 +51,7 @@ For attributes with a range `decimal` or `integer`, upper and lower boundaries c
         minimum_value: 0
 ```
 ## String values - Regular Expressions
-Regular expressions can be used to test string values. They are defined as `pattern`:
+[Regular expressions](https://en.wikipedia.org/wiki/Regular_expression){target="_blank" rel="noopener noreferrer"} can be used to test string values. They are defined as `pattern`:
 ```yaml
  IdentifiedObject:
     class_uri: cim:IdentifiedObject
