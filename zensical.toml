@@ -2,7 +2,7 @@
 
 site_name = "Erwartung - Data Unit Tests for the Energy Domain"
 site_description = """Erwartung is an open-source repository that collects data unit tests for the energy domain. 
-It uses linkml to export these tests to different formats, so that they can be used in your datahub.
+It uses LinkML to export these tests to different formats, so that they can be used in your datahub.
 """
 site_author = "FlorianK13"
 #site_url = "https://www.example.com/"

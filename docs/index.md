@@ -49,4 +49,4 @@ flowchart LR
 ```
 
 ## Role of LinkML
-The Python tool [linkml](https://linkml.io){target="_blank" rel="noopener noreferrer"} serves as the core open‑source library that provides export functionality from a knowledge base (schema file) to various formats. Its capabilities can be extended if additional features are required.
+The Python tool [LinkML](https://linkml.io){target="_blank" rel="noopener noreferrer"} serves as the core open‑source library that provides export functionality from a knowledge base (schema file) to various formats. Its capabilities can be extended if additional features are required.

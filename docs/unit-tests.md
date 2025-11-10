@@ -76,4 +76,4 @@ Tower:
               maximum_value: 40
 ```
 ### And More
-The tests described above are all part of the core functionality of linkml. We plan to add more testing capabilities either to the core package of linkml, or by writing own software that extends the schemas from linkml.
+The tests described above are all part of the core functionality of LinkML. We plan to add more testing capabilities either to the core package of LinkML, or by writing own software that extends the schemas from LinkML.
