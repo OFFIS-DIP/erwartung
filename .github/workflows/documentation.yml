@@ -1,9 +1,8 @@
 name: Build Documentation and push it to github pages
 on:
-  push:
-    branches:
-      - master
-      - main
+  workflow_dispatch:
+  release:
+    types: [published]
 permissions:
   contents: read
   pages: write
