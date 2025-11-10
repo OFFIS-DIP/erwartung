@@ -13,4 +13,4 @@ icon: lucide/circle-question-mark
     * **Model‑to‑model mappings:** For operators that employ alternative data models, mappings **from CIM to their model** can be defined. These mappings translate the CIM‑based test definitions into the operator’s native schema, allowing the same tests to be executed across heterogeneous systems. Because each operator’s model can differ, a dedicated mapping needs to be developed for every participant. Once the mapping is in place, any updates to the CIM‑based schema in `erwartung` automatically propagate through the mapping layer. We will provide clear guidlines and templates, how these mappings are defined to enable grid operators to independently define their own mappings.
 
 ??? question "...data testing is specific for each grid operator?"
-    
+    Parts of data testing are indeed specific for each grid operator. However, in the area of built assets, many test cases are generally true and do not depend on the grid operator. These are the test cases that we want to cover at `erwartung`. You can see examples in the [data unit test section](unit-tests.md). 
