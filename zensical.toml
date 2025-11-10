@@ -16,6 +16,7 @@ repo_url = "https://github.com/FlorianK13/erwartung"
 [project.theme]
 
 language = "en"
+font = false # Doesn't use Google Fonts with this command
 
 features = [
     "content.code.annotate",
