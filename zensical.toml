@@ -29,7 +29,7 @@ nav = [
 
 
 [project.theme]
-
+custom_dir = "overrides"
 language = "en"
 font = false # Doesn't use Google Fonts with this command
 
