@@ -93,36 +93,16 @@ In the second part, software tools are used **to export** these generic tests to
     *Generated with LinkML*
     ```python
     from __future__ import annotations 
-
     import re
     import sys
-    from datetime import (
-        date,
-        datetime,
-        time
-    )
+    from datetime import date, datetime, time
     from decimal import Decimal 
     from enum import Enum 
-    from typing import (
-        Any,
-        ClassVar,
-        Literal,
-        Optional,
-        Union
-    )
-
-    from pydantic import (
-        BaseModel,
-        ConfigDict,
-        Field,
-        RootModel,
-        field_validator
-    )
-
+    from typing import Any, ClassVar, Literal, Optional, Union
+    from pydantic import BaseModel, ConfigDict, Field, RootModel, field_validator
 
     metamodel_version = "None"
     version = "None"
-
 
     class ConfiguredBaseModel(BaseModel):
         model_config = ConfigDict(
@@ -134,9 +114,6 @@ In the second part, software tools are used **to export** these generic tests to
             strict = False,
         )
         pass
-
-
-
 
     class LinkMLMeta(RootModel):
         root: dict[str, Any] = {}
@@ -154,7 +131,6 @@ In the second part, software tools are used **to export** these generic tests to
         def __contains__(self, key:str) -> bool:
             return key in self.root
 
-
     linkml_meta = LinkMLMeta({'default_prefix': 'https://example.org/example/',
         'id': 'https://example.org/example',
         'imports': ['linkml:types'],
@@ -163,16 +139,10 @@ In the second part, software tools are used **to export** these generic tests to
                                 'prefix_reference': 'https://w3id.org/linkml/'}},
         'source_file': 'minimal-example/schema.yml'} )
 
-
     class WindGeneratingUnit(ConfiguredBaseModel):
         linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'https://example.org/example'})
 
         power: Optional[Decimal] = Field(default=None, le=20000000.0, json_schema_extra = { "linkml_meta": {'alias': 'power', 'domain_of': ['WindGeneratingUnit']} })
-
-
-    # Model rebuild
-    # see https://pydantic-docs.helpmanual.io/usage/models/#rebuilding-a-model
-    WindGeneratingUnit.model_rebuild()
     ```
 Check out all possible exporters within the [integrations](integrations/index.md).
 
