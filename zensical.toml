@@ -13,16 +13,12 @@ repo_url = "https://github.com/OFFIS-DIP/erwartung"
 nav = [
     { "Home" = "index.md" },
     { "Data Unit Tests" = "unit-tests.md" },
-    {"Exporters" = [
-        "exporters/index.md", 
-        {"Shape Constraint Language (SHACL)" = "exporters/shacl.md"},
-        {"SQL Exporter" = "exporters/sql.md"},
-    ]},
     {"Integrations" = [
         "integrations/index.md", 
         {"Graph Data" = "integrations/graph-data.md"},
         {"Relational Databases" = "integrations/relational-data.md"},
         {"Python" = "integrations/python.md"},
+        {"and More" = "integrations/more.md"},
     ]},
     { "FAQ" = "faq.md" }
 ]

@@ -177,6 +177,7 @@ In the second step, software tools are used export these generic tests to the fo
     # see https://pydantic-docs.helpmanual.io/usage/models/#rebuilding-a-model
     WindGeneratingUnit.model_rebuild()
     ```
+Check out all possible exporters within the [integrations](integrations/index.md).
 
 ## Role of LinkML
 `erwartung` does not reinvent the wheel. Instead, the existing python tool [LinkML](https://linkml.io) serves as the core open‑source library that provides export functionality from a knowledge base (schema file) to various formats. Its capabilities can be extended, if additional features are required in the scope of `erwartung`.
