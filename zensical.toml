@@ -9,7 +9,7 @@ site_author = "FlorianK13"
 copyright = """
 Copyright &copy; 2025 <a href="https://www.offis.de">OFFIS e.V.</a>  | <a href="https://www.offis.de/en/legals.html">Legals</a> 
 """
-repo_url = "https://github.com/FlorianK13/erwartung"
+repo_url = "https://github.com/OFFIS-DIP/erwartung"
 nav = [
     { "Home" = "index.md" },
     { "Data Unit Tests" = "unit-tests.md" },
@@ -61,3 +61,10 @@ toggle.name = "Switch to dark mode"
 scheme = "slate"
 toggle.icon = "lucide/moon"
 toggle.name = "Switch to light mode"
+
+[project.markdown_extensions.pymdownx.superfences]
+custom_fences = [
+  { name = "mermaid", class = "mermaid", format = "pymdownx.superfences.fence_code_format" }
+]
+[project.markdown_extensions.pymdownx.tabbed]
+alternate_style = true
