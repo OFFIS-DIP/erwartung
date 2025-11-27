@@ -45,7 +45,7 @@ In the second part, software tools are used **to export** these generic tests to
 === "SQL"
 
     ```sql
-    SELECT * FROM "WindGeneratingUnit" WHERE "power" > 20000000;
+    SELECT * FROM "WindGeneratingUnit" WHERE "ratedGrossMaxP" > 20000000;
     ```
 
 === "SHACL"
@@ -64,7 +64,7 @@ In the second part, software tools are used **to export** these generic tests to
                 sh:maxInclusive "20e6" ;
                 sh:nodeKind sh:Literal ;
                 sh:order 0 ;
-                sh:path <https://example.org/example/power> ] ;
+                sh:path <https://example.org/example/ratedGrossMaxP> ] ;
         sh:targetClass <https://example.org/example/WindGeneratingUnit> .
     ```
 
@@ -78,7 +78,7 @@ In the second part, software tools are used **to export** these generic tests to
                 "additionalProperties": false,
                 "description": "",
                 "properties": {
-                    "power": {
+                    "ratedGrossMaxP": {
                         "maximum": "20e6",
                         "type": [
                             "number",
@@ -155,7 +155,7 @@ In the second part, software tools are used **to export** these generic tests to
     class WindGeneratingUnit(ConfiguredBaseModel):
         linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'https://example.org/example'})
 
-        power: Optional[Decimal] = Field(default=None, le=20000000.0, json_schema_extra = { "linkml_meta": {'alias': 'power', 'domain_of': ['WindGeneratingUnit']} })
+        ratedGrossMaxP: Optional[Decimal] = Field(default=None, le=20000000.0, json_schema_extra = { "linkml_meta": {'alias': 'power', 'domain_of': ['WindGeneratingUnit']} })
     ```
 Check out all possible exporters within the [integrations](integrations/index.md).
 
