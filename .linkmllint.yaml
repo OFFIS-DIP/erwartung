@@ -1,0 +1,6 @@
+extends: recommended
+rules:
+  standard_naming:
+    level: disabled # CIM has its own naming, which does not conform to linkml naming rules
+  recommended:
+    level: disabled # Many CIM classes have no description, which throws a warning
