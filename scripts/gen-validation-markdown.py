@@ -63,7 +63,7 @@ def has_validations(class_data: Dict[str, Any]) -> bool:
     return False
 
 
-def extract_validations(class_name: str, class_data: Dict[str, Any]) -> Dict[str, Dict[str, Any]]:
+def extract_validations(class_data: Dict[str, Any]) -> Dict[str, Dict[str, Any]]:
     """
     Extract all validations for a class, organized by attribute.
 
@@ -84,7 +84,7 @@ def extract_validations(class_name: str, class_data: Dict[str, Any]) -> Dict[str
             if isinstance(attr_data, dict):
                 validation_props = {}
 
-                # Check for validation properties (excluding 'required')
+                # Check for validation properties
                 for prop in ['maximum_value', 'minimum_value', 'pattern',
                            'equals_string', 'equals_number']:
                     if prop in attr_data:
@@ -238,7 +238,7 @@ def main():
             classes_with_validations.append(class_name)
 
             # Extract validations
-            validations = extract_validations(class_name, class_data)
+            validations = extract_validations(class_data)
 
             # Generate markdown
             markdown = generate_validation_markdown(class_name, class_data, validations)
