@@ -9,12 +9,14 @@ markdown documentation files for each class that has validations.
 import logging
 from pathlib import Path
 from typing import Dict, List, Set, Any
+from collections import defaultdict
 from utils import load_linkml_schema
 
 # Constants
 SCRIPT_DIR = Path(__file__).parent
 SCHEMA_PATH = SCRIPT_DIR.parent / "schema" / "TC57CIM-reduced.yml"
 DOCS_DIR = SCRIPT_DIR.parent / "docs" / "validations"
+TOML_PATH = SCRIPT_DIR.parent / "zensical.toml"
 
 
 def setup_logging():
@@ -61,6 +63,44 @@ def has_validations(class_data: Dict[str, Any]) -> bool:
                     return True
 
     return False
+
+
+def get_first_subclass_after_identified_object(class_name: str,
+                                                 schema: Dict[str, Any]) -> str:
+    """
+    Find the first subclass after IdentifiedObject in the class hierarchy.
+
+    Traverses the class hierarchy from the given class up to IdentifiedObject,
+    and returns the direct child of IdentifiedObject in the chain.
+
+    Args:
+        class_name: Name of the class to start from
+        schema: The full schema containing all classes
+
+    Returns:
+        The name of the first subclass after IdentifiedObject, or the class_name
+        itself if it directly inherits from IdentifiedObject
+    """
+    # Build the hierarchy chain from class to IdentifiedObject
+    hierarchy = []
+    current = class_name
+
+    while current in schema['classes']:
+        hierarchy.append(current)
+        class_data = schema['classes'][current]
+
+        if 'is_a' in class_data:
+            parent = class_data['is_a']
+            if parent == 'IdentifiedObject':
+                # Current class is a direct child of IdentifiedObject
+                return current
+            current = parent
+        else:
+            # No parent, we've reached the top
+            break
+
+    # If we got here without finding IdentifiedObject, return the class itself
+    return class_name
 
 
 def get_attribute_description(attr_name: str, class_data: Dict[str, Any],
@@ -258,6 +298,65 @@ def generate_validation_markdown(class_name: str, class_data: Dict[str, Any],
     return "\n".join(lines)
 
 
+def update_zensical_toml(classes_by_subclass: Dict[str, List[str]]):
+    """
+    Update the zensical.toml file with validation navigation structure.
+
+    Args:
+        classes_by_subclass: Dict mapping first subclass names to lists of class names
+    """
+    # Read the existing TOML file
+    with open(TOML_PATH, 'r') as f:
+        lines = f.readlines()
+
+    # Build the new validations structure
+    validations_lines = []
+
+    for subclass in sorted(classes_by_subclass.keys()):
+        class_files = sorted(classes_by_subclass[subclass])
+        md_paths = ', '.join([f'"validations/{cls}.md"' for cls in class_files])
+        validations_lines.append(f'        {{"{subclass}" = [{md_paths}]}}')
+
+    # Create the new validations entry
+    new_validations = ',\n'.join(validations_lines)
+    new_validations_section = f'{{"Validations" = [\n{new_validations}\n    ]}}'
+
+    # Find and replace the Validations section in nav
+    output_lines = []
+    i = 0
+    while i < len(lines):
+        line = lines[i]
+
+        # Check if this line contains the Validations section
+        if '{"Validations"' in line or '{ "Validations"' in line:
+            # Replace this entry with the new validations section
+            output_lines.append(f'    {new_validations_section}\n')
+
+            # Skip all lines until we find the closing ]} for this entry
+            if ']}' not in line:
+                # Multi-line entry, skip until we find the closing ]}
+                i += 1
+                while i < len(lines):
+                    if ']}' in lines[i]:
+                        # Found the closing, move past it
+                        i += 1
+                        break
+                    i += 1
+            else:
+                # Single-line entry, just move to next line
+                i += 1
+        else:
+            # Not the Validations line, keep it as-is
+            output_lines.append(line)
+            i += 1
+
+    # Write the updated TOML file
+    with open(TOML_PATH, 'w') as f:
+        f.writelines(output_lines)
+
+    logging.info(f"Updated {TOML_PATH} with {len(classes_by_subclass)} validation categories")
+
+
 def main():
     """Main execution function"""
     setup_logging()
@@ -275,6 +374,7 @@ def main():
 
     # Process all classes
     classes_with_validations = []
+    classes_by_subclass = defaultdict(list)
 
     if 'classes' not in schema:
         logging.error("No classes found in schema")
@@ -296,11 +396,20 @@ def main():
 
             logging.info(f"Generated: {output_file.name}")
 
+            # Group by first subclass after IdentifiedObject
+            first_subclass = get_first_subclass_after_identified_object(class_name, schema)
+            classes_by_subclass[first_subclass].append(class_name)
+
+    # Update zensical.toml with validation navigation
+    if classes_by_subclass:
+        update_zensical_toml(classes_by_subclass)
+
     # Summary
     logging.info("=" * 70)
     logging.info(f"Total classes processed: {len(schema['classes'])}")
     logging.info(f"Classes with validations: {len(classes_with_validations)}")
     logging.info(f"Markdown files generated: {len(classes_with_validations)}")
+    logging.info(f"Validation categories: {len(classes_by_subclass)}")
     logging.info("=" * 70)
 
 
