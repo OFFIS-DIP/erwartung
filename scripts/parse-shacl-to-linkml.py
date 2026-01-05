@@ -10,18 +10,17 @@ import logging
 from pathlib import Path
 from dataclasses import dataclass, field
 from typing import Dict, List, Optional, Set, Tuple
-from collections import defaultdict
 import shutil
+from utils import load_linkml_schema
 
-from rdflib import Graph, Namespace, RDF, RDFS, Literal
-from rdflib.term import URIRef
+from rdflib import Graph, Namespace
 from ruamel.yaml import YAML
 from ruamel.yaml.comments import CommentedMap
 
 # Constants
 SCRIPT_DIR = Path(__file__).parent
 SHACL_DIR = SCRIPT_DIR / "shacl"
-SCHEMA_PATH = SCRIPT_DIR.parent.parent / "schema" / "TC57CIM-reduced.yml"
+SCHEMA_PATH = SCRIPT_DIR.parent / "schema" / "TC57CIM-reduced.yml"
 MAX_LINE_LENGTH = 88 # same as black formatter
 
 # RDF Namespaces
@@ -226,37 +225,6 @@ def parse_single_shacl_file(ttl_file: Path) -> List[NumericConstraint]:
     return constraints
 
 
-def load_linkml_schema() -> Tuple[CommentedMap, YAML]:
-    """
-    Phase 2: Load LinkML schema with ruamel.yaml for round-trip preservation
-
-    Returns:
-        Tuple of (schema_dict, yaml_instance)
-    """
-    logging.info(f"Loading LinkML schema: {SCHEMA_PATH}")
-
-    if not SCHEMA_PATH.exists():
-        raise FileNotFoundError(f"Schema file not found: {SCHEMA_PATH}")
-
-    # Use ruamel.yaml in round-trip mode
-    yaml = YAML()
-    yaml.preserve_quotes = True
-    yaml.default_flow_style = False
-    yaml.width = MAX_LINE_LENGTH  # Maximum line length before wrapping
-    yaml.indent(mapping=2, sequence=2, offset=0)
-
-    with open(SCHEMA_PATH, 'r') as f:
-        schema = yaml.load(f)
-
-    if 'classes' not in schema:
-        raise ValueError("Schema does not contain 'classes' section")
-
-    num_classes = len(schema['classes'])
-    logging.info(f"Loaded schema with {num_classes} classes")
-
-    return schema, yaml
-
-
 def merge_constraints(
     constraints: Dict[Tuple[str, str], NumericConstraint],
     schema: CommentedMap
@@ -409,7 +377,7 @@ def main():
     constraints = parse_shacl_files()
 
     # Phase 2: Load LinkML schema
-    schema, yaml = load_linkml_schema()
+    schema, yaml = load_linkml_schema(schema_path=SCHEMA_PATH)
 
     # Phase 3: Merge constraints
     schema = merge_constraints(constraints, schema)
