@@ -20,7 +20,8 @@ nav = [
         {"Python" = "integrations/python.md"},
         {"and More" = "integrations/more.md"},
     ]},
-    { "FAQ" = "faq.md" }
+    { "FAQ" = "faq.md" },
+    {"Validations" = "validations"}
 ]
 
 
