@@ -3,7 +3,7 @@ name = "erwartung"
 version = "0.1.0"
 description = "erwartung is a collection of data unit tests for the energy domain. It includes software that exports these tests to various formats, ready to be used in your data hub."
 readme = "README.md"
-requires-python = ">=3.13"
+requires-python = ">=3.12"
 dependencies = [
     "gen-linkml-profile",
     "linkml>=1.9.5",
@@ -13,3 +13,10 @@ dependencies = [
 
 [tool.uv.sources]
 gen-linkml-profile = { git = "https://github.com/Netbeheer-Nederland/gen-linkml-profile" }
+
+
+[tool.setuptools.packages.find]
+where = ["src"]  # list of folders that contain the packages (["."] by default)
+include = ["*"]  # package names should match these glob patterns (["*"] by default)
+exclude = []  # exclude packages matching these glob patterns (empty by default)
+namespaces = false  # to disable scanning PEP 420 namespaces (true by default)

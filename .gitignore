@@ -212,3 +212,5 @@ trace.json
 
 # own
 *.backup
+
+.vscode/

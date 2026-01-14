@@ -11,7 +11,7 @@ from pathlib import Path
 from dataclasses import dataclass, field
 from typing import Dict, List, Optional, Set, Tuple
 import shutil
-from utils import load_linkml_schema
+from erwartung.scripts.utils import load_linkml_schema
 
 from rdflib import Graph, Namespace
 from ruamel.yaml import YAML
@@ -228,7 +228,8 @@ def parse_single_shacl_file(ttl_file: Path) -> List[NumericConstraint]:
 
 def merge_constraints(
     constraints: Dict[Tuple[str, str], NumericConstraint],
-    schema: CommentedMap
+    schema: CommentedMap,
+    test_source_prefix: str = "ENTSOE Application Profiles Library v1.1.0"
 ) -> CommentedMap:
     """
     Phase 3: Merge SHACL constraints into LinkML schema
@@ -303,7 +304,7 @@ def merge_constraints(
         if (added_min or added_max) and 'description' not in property_usage:
             # Format source files as a comma-separated list
             description_files = sorted(constraint.source_files)
-            description_ref = f"ENTSOE Application Profiles Library v1.1.0 ({', '.join(description_files)})"
+            description_ref = f"{test_source_prefix} ({', '.join(description_files)})"
             property_usage['description'] = DoubleQuotedScalarString(description_ref)
         # Track statistics
         if added_min or added_max:
@@ -321,7 +322,7 @@ def merge_constraints(
     return schema
 
 
-def write_updated_schema(schema: CommentedMap, yaml: YAML) -> None:
+def write_updated_schema(schema: CommentedMap, yaml: YAML, schema_path = SCHEMA_PATH) -> None:
     """
     Phase 4: Write updated schema to file with backup
 
@@ -332,19 +333,19 @@ def write_updated_schema(schema: CommentedMap, yaml: YAML) -> None:
     logging.info("Writing updated schema...")
 
     # Create backup
-    backup_path = SCHEMA_PATH.with_suffix('.yml.backup')
+    backup_path = schema_path.with_suffix('.yml.backup')
     logging.info(f"Creating backup: {backup_path}")
-    shutil.copy2(SCHEMA_PATH, backup_path)
+    shutil.copy2(schema_path, backup_path)
 
     # Write updated schema
     try:
-        with open(SCHEMA_PATH, 'w') as f:
+        with open(schema_path, 'w') as f:
             yaml.dump(schema, f)
-        logging.info(f"Successfully wrote updated schema to: {SCHEMA_PATH}")
+        logging.info(f"Successfully wrote updated schema to: {schema_path}")
     except Exception as e:
         logging.error(f"Error writing schema: {e}")
         logging.info(f"Restoring from backup...")
-        shutil.copy2(backup_path, SCHEMA_PATH)
+        shutil.copy2(backup_path, schema_path)
         raise
 
 
