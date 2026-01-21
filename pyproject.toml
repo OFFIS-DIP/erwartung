@@ -5,10 +5,10 @@ description = "erwartung is a collection of data unit tests for the energy domai
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
-    "gen-linkml-profile",
     "linkml>=1.9.5",
     "ruamel-yaml>=0.19.1",
     "zensical>=0.0.7",
+    "gen-linkml-profile@git+https://github.com/Netbeheer-Nederland/gen-linkml-profile"
 ]
 
 [tool.uv.sources]
