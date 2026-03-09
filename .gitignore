@@ -214,3 +214,5 @@ trace.json
 *.backup
 examples/**/*.ttl
 examples/**/*.sql
+
+.vscode/
