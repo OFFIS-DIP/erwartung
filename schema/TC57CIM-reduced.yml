@@ -41648,11 +41648,11 @@ classes:
       preconditions:
           slot_conditions:
             aggregate:
-              equals_expression: true
+              equals_expression: false
       postconditions:
         slot_conditions:
           maxOperatingP:
-            maximum_value: 15000
+            maximum_value: 20000
 
   SolarGeneratingUnit:
     class_uri: cim:SolarGeneratingUnit
