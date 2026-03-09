@@ -1,0 +1,10 @@
+class_derivations:
+  EinheitenWind:
+    populated_from: WindGeneratingUnit
+    slot_derivations:
+      Nettonennleistung:
+        populated_from: maxOperatingP
+        unit_conversion:
+          target_unit: kW
+      Postleitzahl:
+        populated_from: postalCode

@@ -1,0 +1,52 @@
+name: TC57CIM-derived
+id: https://cim.ucaiug.io/ns#TC57CIM-derived
+imports:
+- linkml:types
+prefixes:
+  linkml:
+    prefix_prefix: linkml
+    prefix_reference: https://w3id.org/linkml/
+  github:
+    prefix_prefix: github
+    prefix_reference: https://github.com/
+  cim:
+    prefix_prefix: cim
+    prefix_reference: https://cim.ucaiug.io/ns#
+default_prefix: https://cim.ucaiug.io/ns#TC57CIM-derived/
+default_range: string
+classes:
+  EinheitenWind:
+    name: EinheitenWind
+    description: 'A wind driven generating unit, connected to the grid by means of
+      a rotating machine.  May be used to represent a single turbine or an aggregation.    '
+    attributes:
+      Nettonennleistung:
+        name: Nettonennleistung
+        description: "This is the maximum operating active power limit the dispatcher\
+          \ can enter for this unit.\r\n"
+        slot_uri: cim:GeneratingUnit.maxOperatingP
+        range: decimal
+        required: false
+        multivalued: false
+        unit:
+          ucum_code: kW
+      Postleitzahl:
+        name: Postleitzahl
+        description: Postal code for the address.
+        slot_uri: cim:StreetAddress.postalCode
+        range: string
+        required: false
+        multivalued: false
+        pattern: ^\d{5}$
+    class_uri: cim:WindGeneratingUnit
+    rules:
+    - preconditions:
+        slot_conditions:
+          aggregate:
+            name: aggregate
+            equals_expression: 'True'
+      postconditions:
+        slot_conditions:
+          maxOperatingP:
+            name: maxOperatingP
+            maximum_value: 15000

@@ -212,3 +212,5 @@ trace.json
 
 # own
 *.backup
+examples/**/*.ttl
+examples/**/*.sql
