@@ -3975,6 +3975,7 @@ classes:
         required: false
         multivalued: false
         description: Postal code for the address.
+        pattern: ^\d{5}$ # for german zip codes with 5 digits
       status:
         slot_uri: cim:StreetAddress.status
         range: Status
@@ -41643,6 +41644,16 @@ classes:
         required: false
         multivalued: false
         description: The kind of wind generating unit.
+    rules:
+      preconditions:
+          slot_conditions:
+            aggregate:
+              equals_expression: true
+      postconditions:
+        slot_conditions:
+          maxOperatingP:
+            maximum_value: 15000
+
   SolarGeneratingUnit:
     class_uri: cim:SolarGeneratingUnit
     is_a: GeneratingUnit
