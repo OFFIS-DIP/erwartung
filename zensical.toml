@@ -14,7 +14,7 @@ nav = [
     { "Home" = "index.md" },
     {"Integrations" = [
         "integrations/index.md", 
-        {"Graph Data" = "integrations/graph-data.md"},
+        {"Shapes Constraint Language (SHACL)" = "integrations/graph-data.md"},
         {"Relational Databases" = "integrations/relational-data.md"},
         {"Python" = "integrations/python.md"},
         {"and More" = "integrations/more.md"},
@@ -101,6 +101,16 @@ custom_fences = [
 ]
 [project.markdown_extensions.pymdownx.tabbed]
 alternate_style = true
+
+### For text highlighting in code blocks
+[project.markdown_extensions.pymdownx.highlight]
+anchor_linenums = true
+line_spans = "__span"
+pygments_lang_class = true
+[project.markdown_extensions.pymdownx.inlinehilite]
+[project.markdown_extensions.pymdownx.snippets]
+###END: For text highlighting in code blocks
+
 
 [project.markdown_extensions.admonition]
 [project.markdown_extensions.pymdownx.details]
